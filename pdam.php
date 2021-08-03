@@ -1,34 +1,49 @@
 <?php
-class PDAM 
-{
-    public $id, $nama. $jumlah_penggunaan;
-    public function __construct getBiaya($id, $nama. $jumlah_penggunaan)
+class PDAM{
+    public $id, $nama, $jumlah_penggunaan, $admin = 10000;
+    public function __construct($id, $nama, $jumlah_penggunaan)
     {
         $this->id = $id;
         $this->nama = $nama;
-        $this->jumlah_penggunaan = $jumlah_penggunaan;
+        if ($jumlah_penggunaan < 10) {
+            $this->jumlah_penggunaan = 10;    
+        }
+        else {
+            $this->jumlah_penggunaan = $jumlah_penggunaan;
+        }
+        
+    }
+    public function getBiaya()
+    {
+        $tarif = 0;
+        if ($this->jumlah_penggunaan <= 10) {
+            $tarif = 2000;
+        }
+        elseif ($this->jumlah_penggunaan > 10 && $this->jumlah_penggunaan <= 20) {
+            $tarif = 3000;
+        }
+        elseif ($this->jumlah_penggunaan > 20 && $this->jumlah_penggunaan <=30) {
+            $tarif = 4000;
+        }
+        elseif ($this->jumlah_penggunaan > 30) {
+            $tarif = 5000;
+        }
+
+        $hasil = $this->jumlah_penggunaan * $tarif + $this->admin;
+        return $hasil;
     }
 }
 
-public function getBiaya()
-    {
-        if ($this->tagihan < 2000000) {
-            $biaya = $this->jalur->spp[0] + $this->jalur->dsp[0];
-            return $biaya;
-        }
-        elseif ($this->tagihan >= 2000000 && $this->pendapatan <= 10000000) {
-            $biaya = $this->jalur->spp[1] + $this->jalur->dsp[1];
-            return $biaya;
-        }
-        elseif ($this->tagihan > 10000000) {
-            $biaya = $this->jalur->spp[2] + $this->jalur->dsp[2];
-            return $biaya;
-        }
-        elseif ($this->tagihan >= 2000000 && $this->pendapatan <= 10000000) {
-            $biaya = $this->jalur->spp[1] + $this->jalur->dsp[1];
-            return $biaya;
-        }
-        elseif ($this->ptagihan > 10000000) {
-            $biaya = $this->jalur->spp[2] + $this->jalur->dsp[2];
-            return $biaya;
+$pelanggan = [
+    new PDAM(1, "Ali", 9),
+    new PDAM(2, "Budi", 40),
+    new PDAM(3, "Dani", 60),
+    new PDAM(4, "Edi", 25),
+    new PDAM(5, "Umar", 14)
+];
+
+for ($i=0; $i < count($pelanggan) ; $i++) { 
+    echo nl2br("Pelanggan: ".$pelanggan[$i]->nama ." Biaya: ".$pelanggan[$i]->getBiaya()."\n");
+}
+
 ?>
